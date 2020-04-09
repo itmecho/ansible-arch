@@ -72,7 +72,7 @@
     - name: Install ansible-aur-git
       become_user: "{{ user.name }}"
       command:
-        cmd: makepkg -si
+        cmd: makepkg -si --noconfirm
         chdir: /tmp/ansible-aur-git
 
   vars_prompt:
