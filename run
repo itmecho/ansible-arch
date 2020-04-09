@@ -8,18 +8,7 @@ fi
 echo ":: installaing dependencies"
 pacman -S --needed --noconfirm base-devel git ansible
 
-if pacman -Qem ansible-aur-git &>/dev/null; then
-    echo ":: ansible aur module already installed"
-else
-    {
-        echo ":: installing ansible aur module"
-        cd /tmp;
-        git clone https://aur.archlinux.org/ansible-aur-git.git;
-        cd ansible-aur-git;
-        makepkg -si --noconfirm;
-    }
-fi
-
 playbook=$1
 echo ":: running playbook for $playbook"
+ansible-playbook -i inventory --extra-vars "@vars/${playbook}.yaml" init.yaml
 ansible-playbook -i inventory --extra-vars "@vars/${playbook}.yaml" playbook.yaml

@@ -5,6 +5,17 @@
     - sudo
     - pacman
     - user
+  tasks:
+    - name: Clone ansible-aur-git
+      git:
+        repo: https://aur.archlinux.org/ansible-aur-git.git
+        dest: /tmp/ansible-aur-git
+
+    - name: Install ansible-aur-git
+      command:
+        cmd: makepkg -si
+        chdir: /tmp/ansible-aur-git
+
   vars_prompt:
     - name: username
       prompt: Enter the username for the new user
