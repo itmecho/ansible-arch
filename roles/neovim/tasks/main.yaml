@@ -13,6 +13,7 @@
     state: link
 
 - name: Run userspace tasks
+  become: true
   become_user: "{{ user.name }}"
   block:
     - name: Configure neovim

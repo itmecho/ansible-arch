@@ -5,8 +5,14 @@
     use: yay
 
 - name: Configure polybar
+  become: true
   become_user: "{{ user.name }}"
   block:
+    - name: Create config directory
+      file:
+        path: "{{ user.home }}/.config/polybar"
+        state: directory
+
     - name: Copy configuration
       template:
         src: config

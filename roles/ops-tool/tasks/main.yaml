@@ -1,5 +1,6 @@
 ---
 - name: Install ops-tool
+  become: true
   become_user: "{{ user.name }}"
   unarchive:
     src: https://github.com/itmecho/ops-tool/releases/download/0.1.0/ops-tool-x86_64-unknown-linux-gnu.tgz

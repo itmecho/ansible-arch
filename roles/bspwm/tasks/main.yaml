@@ -8,15 +8,22 @@
       - xorg-xrandr
     state: present
 
-- name: Configure bspwm
+- name: User space tasks
+  become: true
   become_user: "{{ user.name }}"
-  template:
-    src: bspwmrc
-    dest: "{{ user.home }}/.config/bspwm/bspwmrc"
-    mode: 0700
+  block:
+    - name: Create config directory
+      file:
+        path: "{{ user.home }}/.config/bspwm"
+        state: directory
 
-- name: Copy xinit script
-  become_user: "{{ user.name }}"
-  template:
-    src: xinitrc
-    dest: "{{ user.home }}/.xinitrc"
+    - name: Configure bspwm
+      template:
+        src: bspwmrc
+        dest: "{{ user.home }}/.config/bspwm/bspwmrc"
+        mode: 0700
+
+    - name: Copy xinit script
+      template:
+        src: xinitrc
+        dest: "{{ user.home }}/.xinitrc"

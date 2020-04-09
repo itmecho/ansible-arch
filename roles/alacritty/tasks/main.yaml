@@ -4,9 +4,16 @@
     name: alacritty
     state: present
 
-- name: Configure alacritty
-  copy:
-    src: alacritty.yml
-    dest: "{{ user.home }}/.config/alacritty/alacritty.yml"
-    owner: "{{ user.name }}"
-    group: "{{ user.group }}"
+- name: Userspace tasks
+  become: true
+  become_user: "{{ user.name }}"
+  block:
+    - name: Create config directory
+      file:
+        path: "{{ user.home }}/.config/alacritty"
+        state: directory
+
+    - name: Configure alacritty
+      copy:
+        src: alacritty.yml
+        dest: "{{ user.home }}/.config/alacritty/alacritty.yml"

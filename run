@@ -12,5 +12,7 @@ pacman -S --needed --noconfirm base-devel git ansible
 
 playbook=$1
 echo ":: running playbook for $playbook"
-ansible-playbook -i inventory --extra-vars "@vars/${playbook}.yaml" init.yaml
-ansible-playbook -i inventory --extra-vars "@vars/${playbook}.yaml" playbook.yaml
+echo -n "Enter username for the new user: "
+read username
+ansible-playbook -i inventory --extra-vars "username=${username}" --extra-vars "@vars/${playbook}.yaml" init.yaml
+ansible-playbook -i inventory --extra-vars "username=${username}" --extra-vars "@vars/${playbook}.yaml" playbook.yaml

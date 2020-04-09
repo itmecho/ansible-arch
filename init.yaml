@@ -6,6 +6,59 @@
     - pacman
     - user
   tasks:
+    - name: Set timezone
+      file:
+        src: /usr/share/zoneinfo/{{ timezone }}
+        dest: /etc/localtime
+        state: link
+
+    - name: Generate /etc/adjtime
+      command: hwclock --systohc
+
+    - name: Prepare locale
+      replace:
+        path: /etc/locale.gen
+        regexp: '^#{{ locale }}'
+        replace: '{{ locale }}'
+
+    - name: Generate locale
+      command: locale-gen
+
+    - name: Set LANG
+      lineinfile:
+        path: /etc/locale.conf
+        line: LANG={{ locale }}
+
+    - name: Set console keyboard layout
+      lineinfile:
+        path: /etc/vconsole.conf
+        line: KEYMAP={{ keymap }}
+
+    - name: Set hostname
+      lineinfile:
+        path: /etc/hostname
+        line: '{{ hostname }}'
+
+    - name: Configure hosts
+      lineinfile:
+        path: /etc/hosts
+        line: '{{ item }}'
+      loop:
+        - '127.0.0.1  localhost'
+        - '127.0.1.1  {{ hostname }}'
+
+    - name: Create user
+      user:
+        name: "{{ username }}"
+        password: "{{ password | password_hash('sha512') }}"
+        comment: Iain Earl
+        groups:
+          - sudo
+        append: true
+        shell: /usr/bin/zsh
+        update_password: on_create
+      register: user
+
     - name: Clone ansible-aur-git
       become_user: "{{ user.name }}"
       git:
@@ -25,3 +78,22 @@
 
     - name: password
       prompt: Enter the password for the new user
+
+    - name: timezone
+      prompt: Enter your timezone (eg. Europe/London)
+      default: Europe/London
+      private: false
+
+    - name: locale
+      prompt: Enter your locale (eg. en_GB.UTF-8)
+      default: en_GB.UTF-8
+      private: false
+
+    - name: keymap
+      prompt: Enter your console keymap (eg. uk)
+      default: uk
+      private: false
+
+    - name: hostname
+      prompt: Enter the hostname you want for this machine
+      private: false

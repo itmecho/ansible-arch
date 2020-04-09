@@ -1,5 +1,6 @@
 ---
 - name: Install yay
+  become: true
   become_user: "{{ user.name }}"
   aur:
     name: yay

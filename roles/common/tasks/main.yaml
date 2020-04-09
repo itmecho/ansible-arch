@@ -1,45 +1,4 @@
 ---
-- name: Set timezone
-  file:
-    src: /usr/share/zoneinfo/{{ timezone }}
-    dest: /etc/localtime
-    state: link
-
-- name: Generate /etc/adjtime
-  command: hwclock --systohc
-
-- name: Prepare locale
-  replace:
-    path: /etc/locale.gen
-    regexp: '^#{{ locale }}'
-    replace: '{{ locale }}'
-
-- name: Generate locale
-  command: locale-gen
-
-- name: Set LANG
-  lineinfile:
-    path: /etc/locale.conf
-    line: LANG={{ locale }}
-
-- name: Set console keyboard layout
-  lineinfile:
-    path: /etc/vconsole.conf
-    line: KEYMAP={{ keymap }}
-
-- name: Set hostname
-  lineinfile:
-    path: /etc/hostname
-    line: '{{ hostname }}'
-
-- name: Configure hosts
-  lineinfile:
-    path: /etc/hosts
-    line: '{{ item }}'
-  loop:
-    - '127.0.0.1  localhost'
-    - '127.0.1.1  {{ hostname }}'
-
 - name: Install packages
   pacman:
     name:
@@ -83,6 +42,7 @@
     name: "{{ extra_packages_pacman }}"
 
 - name: Run userspace tasks
+  become: true
   become_user: "{{ user.name }}"
   block:
     - name: Install AUR packages

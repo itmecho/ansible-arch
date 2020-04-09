@@ -4,7 +4,16 @@
     name: sxhkd
     state: present
 
-- name: Configure sxhkd
-  template:
-    src: sxhkdrc
-    dest: "{{ user.home }}/.config/sxhkd/sxhkdrc"
+- name: Userspace tasks
+  become: true
+  become_user: "{{ user.name }}"
+  block:
+    - name: Create config directory
+      file:
+        path: "{{ user.home }}/.config/sxhkd"
+        state: directory
+
+    - name: Configure sxhkd
+      template:
+        src: sxhkdrc
+        dest: "{{ user.home }}/.config/sxhkd/sxhkdrc"

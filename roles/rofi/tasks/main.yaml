@@ -4,12 +4,21 @@
     name: rofi
     state: present
 
-- name: Configure rofi
+- name: Userspace tasks
+  become: true
   become_user: "{{ user.name }}"
-  copy:
-    src: "{{ item }}"
-    dest: "{{ user.home }}/.config/rofi/{{ item }}"
-  loop:
-    - config.rasi
-    - gruvbox-common.rasi
-    - gruvbox-dark.rasi
+  block:
+    - name: Create config directory
+      file:
+        path: "{{ user.home }}/.config/rofi"
+        state: directory
+
+    - name: Configure rofi
+      become_user: "{{ user.name }}"
+      copy:
+        src: "{{ item }}"
+        dest: "{{ user.home }}/.config/rofi/{{ item }}"
+      loop:
+        - config.rasi
+        - gruvbox-common.rasi
+        - gruvbox-dark.rasi
