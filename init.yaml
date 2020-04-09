@@ -28,21 +28,25 @@
       lineinfile:
         path: /etc/locale.conf
         line: LANG={{ locale }}
+        create: true
 
     - name: Set console keyboard layout
       lineinfile:
         path: /etc/vconsole.conf
         line: KEYMAP={{ keymap }}
+        create: true
 
     - name: Set hostname
       lineinfile:
         path: /etc/hostname
         line: '{{ hostname }}'
+        create: true
 
     - name: Configure hosts
       lineinfile:
         path: /etc/hosts
         line: '{{ item }}'
+        create: true
       loop:
         - '127.0.0.1  localhost'
         - '127.0.1.1  {{ hostname }}'
