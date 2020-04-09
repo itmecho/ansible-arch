@@ -1,0 +1,29 @@
+---
+- name: Check multilib is enabled
+  fail:
+    msg: "enable_multilib must be set to install steam"
+  when: enable_multilib is not defined or not enable_multilib
+
+- name: Check for en_US.UTF-8 locale
+  shell:
+    cmd: locale -a
+  register: locale_output
+
+- name: Generate en_US.UTF-8 locale
+  when: '"en_US.UTF-8" not in locale_output.stdout'
+  block:
+    - name: Uncomment en_US.UTF-8 in /etc/locale.gen
+      replace:
+        path: /etc/locale.gen
+        regexp: '^#en_US.UTF-8'
+        replace: 'en_US.UTF-8'
+
+    - name: Generate locales
+      command: locale-gen
+
+- name: Install steam and dependencies
+  pacman:
+    name:
+      - steam
+      - ttf-liberation
+    state: present

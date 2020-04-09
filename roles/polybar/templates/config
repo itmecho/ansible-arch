@@ -1,0 +1,124 @@
+; TODO template for work/home
+[colours]
+background = #121212
+background-alt = #ED3A53
+text = #86a1bb
+text-alt = #4c566a
+primary = #1C446E
+alert = #1C446E
+
+red = #213C52
+green = #1C3D64
+yellow = #1F415C
+blue = #21415B
+purple = #1C446E
+teal = #21496A
+
+[bar/main]
+monitor = ${env:MONITOR:}
+enable-ipc = true
+
+modules-left = date {% if is_work %}vpn alerts {% endif %}updates updates-loop
+modules-right = music pulseaudio battery
+
+background = ${colours.background}
+foreground = ${colours.text}
+
+border-size = 10
+border-color = ${colours.background}
+
+tray-position = right
+tray-padding = 5
+
+font-0 = Roboto:size=10;3
+font-1 = "Font Awesome 5 Free Regular:style=Reguler:size=12;3"
+font-2 = "Font Awesome 5 Free Solid:style=Solid:size=12;3"
+font-3 = "Font Awesome 5 Brands Regular:style=Regular:size=12;3"
+
+line-size = 0
+
+module-margin-left = 2
+module-margin-right = 2
+
+[bar/secondary]
+monitor = ${env:MONITOR:}
+modules-left = date
+
+background = ${colours.background}
+foreground = ${colours.text}
+
+border-size = 10
+border-color = ${colours.background}
+
+font-0 = Roboto:size=10;3
+
+line-size = 0
+
+module-margin-left = 2
+module-margin-right = 2
+
+[module/music]
+type = custom/script
+interval = 1
+exec = playerctl status &>/dev/null && playerctl metadata -f "   {{'{{'}}artist{{'}}'}} - {{'{{'}}title{{'}}'}}"
+
+[module/date]
+type = internal/date
+interval = 1.0
+label = "    %date% %time%    "
+
+date = %a %d %b
+time = %H:%M:%S
+
+date-alt = %Y-%m-%d
+time-alt = %H:%M:%S
+
+format-foreground = ${colours.text}
+
+[module/battery]
+type = internal/battery
+
+format-charging = <label-charging>
+format-discharging = <label-discharging>
+format-foreground = ${colours.green}
+
+label-charging =  %percentage%%
+label-discharging =   %percentage%%
+label-full =   %percentage%%
+
+[module/pulseaudio]
+type = internal/pulseaudio
+
+sink = bluez_sink.E8_07_BF_19_EF_09.a2dp_sink
+
+use-ui-max = true
+
+label-volume =   %percentage%%
+format-foreground = ${colours.blue}
+
+[module/alerts]
+type = custom/script
+
+exec = bash ~/.config/polybar/grafana_alerts.sh
+interval = 300
+
+[module/vpn]
+type = custom/ipc
+hook-0 = bash ~/.config/polybar/vpn.sh
+initial = 1
+
+click-left = alacritty -e nmcli con up id "Boomi Flow" --ask && sleep 1 && polybar-msg hook vpn 1 &>/dev/null
+click-right = alacritty -e nmcli con down id "Boomi Flow" && sleep 1 && polybar-msg hook vpn 1 &>/dev/null
+
+[module/updates]
+type = custom/ipc
+hook-0 = bash ~/.config/polybar/checkupdates.sh
+
+click-left = alacritty -e yay -Syu && sleep 1 && polybar-msg hook updates 1 &>/dev/null
+
+[module/updates-loop]
+type = custom/script
+exec = polybar-msg hook updates 1 &>/dev/null
+interval = 3600
+
+; vim:ft=dosini

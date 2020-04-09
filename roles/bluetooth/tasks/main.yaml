@@ -1,0 +1,8 @@
+---
+- name: Install bluetooth packages
+  pacman:
+    name:
+      - bluez
+      - bluez-utils
+      - pulseaudio-bluetooth
+    state: present

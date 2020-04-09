@@ -1,0 +1,6 @@
+---
+- name: Install dropbox
+  become_user: "{{ user.name }}"
+  aur:
+    name: dropbox
+    use: yay

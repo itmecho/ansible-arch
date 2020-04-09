@@ -1,0 +1,67 @@
+#!/bin/sh
+
+pkill sxhkd
+pkill polybar
+pkill notification-daemon
+
+{% if is_work | default(false) %}
+output=$(xrandr)
+count=$(echo ${output} | rg " connected" | wc -l)
+hidef_count=$(echo ${output} | grep 2560 | wc -l)
+
+case $count in
+	3)
+        # Plugged into a dock
+        if [ $hidef_count -eq 2 ]; then
+            # At the office
+            xrandr --output DP-1-2-2 --mode 2560x1440 --primary
+            xrandr --output HDMI-1-1 --mode 2560x1440 --left-of DP-1-2-2
+            xrandr --output eDP-1-1  --mode 1920x1080 --below DP-1-2-2
+            bspc monitor HDMI-1-1 -d 1
+            bspc monitor eDP-1-1 -d 3
+            bspc monitor DP-1-2-2 -d 2 4 5 6 7 8 9
+            MONITOR=HDMI-1-1 polybar secondary &
+        else
+            # At home
+            xrandr --output HDMI-1-1 --mode 2560x1440 --primary
+            xrandr --output DP-1-2-2 --mode 1920x1200 --left-of HDMI-1-1
+            xrandr --output eDP-1-1  --mode 1920x1080 --below HDMI-1-1
+            bspc monitor DP-1-2-2 -d 1
+            bspc monitor eDP-1-1 -d 3
+            bspc monitor HDMI-1-1 -d 2 4 5 6 7 8 9
+            MONITOR=DP-1-2-2 polybar secondary &
+        fi
+        ;;
+	1)
+        # No extra monitors
+        xrandr --output eDP-1-1 --mode 1920x1080 --primary
+        bspc monitor -d 1 2 3 4 5 6 7 8 9
+        ;;
+	*) 
+        # Just in case something goes wrong
+        xrandr --auto
+        ;;
+esac
+{% else %}
+xrandr --output DP-1 --mode 2560x1440 --primary
+xrandr --output DVI-D-1 
+{% endif%}
+sxhkd &
+polybar main &
+nm-applet &
+/usr/lib/notification-daemon-1.0/notification-daemon &
+feh --bg-scale $HOME/.wallpaper.jpg
+
+bspc config border_width        1
+bspc config window_gap          0
+
+bspc config split_ratio          0.52
+bspc config borderless_monocle   true
+bspc config gapless_monocle      true
+
+bspc rule -a firefox desktop=1 follow=on
+bspc rule -a firefoxdeveloperedition desktop=1 follow=on
+bspc rule -a Alacritty desktop=2 follow=on
+bspc rule -a Slack desktop=3 follow=on
+bspc rule -a KeePassXC desktop=3 follow=on
+bspc rule -a Spotify desktop=4 follow=on

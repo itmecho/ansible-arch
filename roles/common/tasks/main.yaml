@@ -1,0 +1,118 @@
+---
+- name: Set timezone
+  file:
+    src: /usr/share/zoneinfo/{{ timezone }}
+    dest: /etc/localtime
+    state: link
+
+- name: Generate /etc/adjtime
+  command: hwclock --systohc
+
+- name: Prepare locale
+  replace:
+    path: /etc/locale.gen
+    regexp: '^#{{ locale }}'
+    replace: '{{ locale }}'
+
+- name: Generate locale
+  command: locale-gen
+
+- name: Set LANG
+  lineinfile:
+    path: /etc/locale.conf
+    line: LANG={{ locale }}
+
+- name: Set console keyboard layout
+  lineinfile:
+    path: /etc/vconsole.conf
+    line: KEYMAP={{ keymap }}
+
+- name: Set hostname
+  lineinfile:
+    path: /etc/hostname
+    line: '{{ hostname }}'
+
+- name: Configure hosts
+  lineinfile:
+    path: /etc/hosts
+    line: '{{ item }}'
+  loop:
+    - '127.0.0.1  localhost'
+    - '127.0.1.1  {{ hostname }}'
+
+- name: Install packages
+  pacman:
+    name:
+      - arc-gtk-theme
+      - arc-icon-theme
+      - aws-cli
+      - bat
+      - bind-tools
+      - firefox
+      - fzf
+      - git
+      - jq
+      - keepassxc
+      - lsd
+      - man-db
+      - neovim
+      - network-manager-applet
+      - networkmanager
+      - nmap
+      - notification-daemon
+      - numlockx
+      - openssh
+      - pavucontrol
+      - playerctl
+      - python-pynvim
+      - ranger
+      - ripgrep
+      - rustup
+      - skim
+      - ttf-font-awesome
+      - ttf-roboto
+      - w3m
+      - wget
+      - yq
+      - zsh
+    state: present
+
+- name: Install extra packages
+  when: extra_packages_pacman is defined and (extra_packages_pacman | length > 0)
+  pacman:
+    name: "{{ extra_packages_pacman }}"
+
+- name: Run userspace tasks
+  become_user: "{{ user.name }}"
+  block:
+    - name: Install AUR packages
+      aur:
+        name:
+          - etcher-bin
+          - navi-bin
+          - nerd-fonts-hack
+          - slack-desktop
+          - spotify
+          - starship-bin
+          - systemd-boot-pacman-hook
+        use: yay
+
+    - name: Install extra AUR packages
+      when: extra_packages_aur is defined and (extra_packages_aur | length > 0)
+      aur:
+        name: "{{ extra_packages_aur }}"
+        use: yay
+
+    - name: Configure starship
+      copy:
+        src: starship.toml
+        dest: "{{ user.home }}/.config/starship.toml"
+
+    - name: Configure gtk applications
+      copy:
+        src: "{{ item.src }}"
+        dest: "{{ user.home }}/{{ item.dest }}"
+      loop:
+        - { src: gtkrc-2.0,   dest: '.gtkrc-2.0' }
+        - { src: gtk-3-4.ini, dest: '.config/gtk-3.0/settings.ini' }
+        - { src: gtk-3-4.ini, dest: '.config/gtk-4.0/settings.ini' }

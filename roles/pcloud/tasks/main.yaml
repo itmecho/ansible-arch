@@ -1,0 +1,8 @@
+---
+- name: Install pcloud
+  become_user: "{{ user.name }}"
+  aur:
+    name:
+      - fuse2
+      - pcloud-drive
+    use: yay

@@ -1,0 +1,19 @@
+---
+- name: Configure pacman
+  replace:
+    path: /etc/pacman.conf
+    regexp: '^#{{ item }}'
+    replace: '{{ item }}'
+  loop:
+    - UseSyslog
+    - Color
+    - TotalDownload
+    - CheckSpace
+    - VerbosePkgLists
+
+- name: Enable 32-bit packages
+  when: enable_multilib | default(false)
+  replace:
+    path: /etc/pacman.conf
+    regexp: '^#\[multilib\]\n#Include = /etc/pacman.d/mirrorlist'
+    replace: '[multilib]\nInclude = /etc/pacman.d/mirrorlist'

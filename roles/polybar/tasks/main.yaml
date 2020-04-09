@@ -1,0 +1,27 @@
+---
+- name: Install polybar
+  aur:
+    name: polybar
+    use: yay
+
+- name: Configure polybar
+  become_user: "{{ user.name }}"
+  block:
+    - name: Copy configuration
+      template:
+        src: config
+        dest: "{{ user.home }}/.config/polybar/config"
+
+    - name: Copy scripts
+      copy:
+        src: checkupdates.sh
+        dest: "{{ user.home }}/.config/polybar/checkupdates.sh"
+
+    - name: Copy work scripts
+      when: is_work | default(false)
+      copy:
+        src: "{{ item }}"
+        dest: "{{ user.home }}/.config/polybar/{{ item }}"
+      loop:
+        - grafana_alerts.sh
+        - vpn.sh

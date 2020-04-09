@@ -1,0 +1,4 @@
+configuration {
+    theme: "gruvbox-dark";
+    font: "Hack Nerd Font 10";
+}

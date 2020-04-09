@@ -1,0 +1,15 @@
+---
+- name: Install rofi
+  pacman:
+    name: rofi
+    state: present
+
+- name: Configure rofi
+  become_user: "{{ user.name }}"
+  copy:
+    src: "{{ item }}"
+    dest: "{{ user.home }}/.config/rofi/{{ item }}"
+  loop:
+    - config.rasi
+    - gruvbox-common.rasi
+    - gruvbox-dark.rasi

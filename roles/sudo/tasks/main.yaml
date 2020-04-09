@@ -1,0 +1,12 @@
+---
+- name: Install sudo
+  pacman:
+    name: sudo
+    state: present
+
+- name: Enable the sudo group
+  replace:
+    path: /etc/sudoers
+    regexp: '^# %sudo'
+    replace: '%sudo'
+    validate: 'visudo -cf %s'

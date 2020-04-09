@@ -1,0 +1,10 @@
+#!/bin/sh
+
+xrandr --auto
+{% if graphics == 'nvidia' %}
+xrandr --setprovideroutputsource modesetting NVIDIA-0
+{% endif %}
+
+numlockx on
+
+exec bspwm

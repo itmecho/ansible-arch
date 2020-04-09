@@ -1,0 +1,22 @@
+---
+- name: Install bspwm and dependencies
+  pacman:
+    name:
+      - bspwm
+      - xorg-server
+      - xorg-xinit
+      - xorg-xrandr
+    state: present
+
+- name: Configure bspwm
+  become_user: "{{ user.name }}"
+  template:
+    src: bspwmrc
+    dest: "{{ user.home }}/.config/bspwm/bspwmrc"
+    mode: 0700
+
+- name: Copy xinit script
+  become_user: "{{ user.name }}"
+  template:
+    src: xinitrc
+    dest: "{{ user.home }}/.xinitrc"

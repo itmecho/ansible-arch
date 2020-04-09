@@ -1,0 +1,10 @@
+---
+- name: Configure GPG agent
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ user.name }}"
+    group: "{{ user.group }}"
+  loop:
+    - { src: gpg-agent.conf,  dest: "{{ user.home }}/.gnupg/gpg-agent.conf" }
+    - { src: pam_environment, dest: "{{ user.home }}/.pam_environment"      }

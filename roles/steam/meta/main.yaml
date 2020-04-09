@@ -1,0 +1,4 @@
+---
+dependencies:
+  - pacman
+  - graphics

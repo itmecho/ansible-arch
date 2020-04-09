@@ -1,0 +1,36 @@
+---
+- name: Install zsh
+  pacman:
+    name: zsh
+    state: present
+
+- name: Install and configure oh-my-zsh
+  become_user: "{{ user.name }}"
+  block:
+    - name: Download installer
+      get_url:
+        url: https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+        dest: /tmp/omz.sh
+        mode: 0755
+
+    - name: Run installer
+      command: /tmp/omz.sh
+
+    - name: Remove installer
+      file:
+        path: /tmp/omz.sh
+        state: absent
+
+    - name: Configure zsh
+      template:
+        src: zshrc
+        dest: "{{ user.home }}/.zshrc"
+
+    - name: Install zsh plugins
+      git:
+        repo: https://github.com/zsh-users/{{ item }}
+        dest: "{{ user.home }}/.oh-my-zsh/custom/plugins/{{ item }}"
+        clone: yes
+      loop:
+        - zsh-autosuggestions
+        - zsh-syntax-highlighting

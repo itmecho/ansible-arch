@@ -1,0 +1,73 @@
+---
+- name: Arch Configuration
+  hosts: all
+  roles:
+    - name: alacritty
+    
+    - name: bluetooth
+      when: has_bluetooth | default(false)
+    
+    - name: bspwm
+    
+    - name: common
+    
+    - name: docker
+    
+    - name: dropbox
+      when: is_work
+    
+    - name: gpg-agent
+    
+    - name: graphics
+    
+    - name: neovim
+    
+    - name: ops-tool
+      when: is_work
+    
+    - name: pacman
+    
+    - name: pcloud
+    
+    - name: polybar
+    
+    - name: rofi
+    
+    - name: steam
+      when: not is_work
+    
+    - name: sudo
+    
+    - name: sxhkd
+    
+    - name: user
+    
+    - name: yay
+    
+    - name: zsh
+  vars_prompt:
+    - name: username
+      prompt: Enter the username for the new user
+      private: false
+
+    - name: password
+      prompt: Enter the password for the new user
+
+    - name: timezone
+      prompt: Enter your timezone (eg. Europe/London)
+      default: Europe/London
+      private: false
+
+    - name: locale
+      prompt: Enter your locale (eg. en_GB.UTF-8)
+      default: en_GB.UTF-8
+      private: false
+
+    - name: keymap
+      prompt: Enter your console keymap (eg. uk)
+      default: uk
+      private: false
+
+    - name: hostname
+      prompt: Enter the hostname you want for this machine
+      private: false

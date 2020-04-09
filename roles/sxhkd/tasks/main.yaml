@@ -1,0 +1,10 @@
+---
+- name: Install sxhkd
+  pacman:
+    name: sxhkd
+    state: present
+
+- name: Configure sxhkd
+  template:
+    src: sxhkdrc
+    dest: "{{ user.home }}/.config/sxhkd/sxhkdrc"

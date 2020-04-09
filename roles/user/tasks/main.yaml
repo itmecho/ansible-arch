@@ -1,0 +1,12 @@
+---
+- name: Create user
+  user:
+    name: "{{ username }}"
+    password: "{{ password | password_hash('sha512') }}"
+    comment: Iain Earl
+    groups:
+      - sudo
+    append: true
+    shell: /usr/bin/zsh
+    update_password: on_create
+  register: user

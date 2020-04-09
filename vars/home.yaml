@@ -1,0 +1,10 @@
+enable_multilib: true
+extra_packages_pacman:
+  - discord
+extra_packages_aur:
+  - etcher-bin
+  - navi-bin
+  - nerd-fonts-hack
+graphics: radeon
+has_bluetooth: false
+is_work: false
