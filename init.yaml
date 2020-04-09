@@ -1,0 +1,12 @@
+---
+- name: Initialisation
+  hosts: all
+  roles:
+    - user
+  vars_prompt:
+    - name: username
+      prompt: Enter the username for the new user
+      private: false
+
+    - name: password
+      prompt: Enter the password for the new user
