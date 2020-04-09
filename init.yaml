@@ -64,12 +64,14 @@
       register: user
 
     - name: Clone ansible-aur-git
+      become: true
       become_user: "{{ user.name }}"
       git:
         repo: https://aur.archlinux.org/ansible-aur-git.git
         dest: /tmp/ansible-aur-git
 
     - name: Install ansible-aur-git
+      become: true
       become_user: "{{ user.name }}"
       command:
         cmd: makepkg -si --noconfirm
