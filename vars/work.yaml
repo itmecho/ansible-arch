@@ -1,8 +1,5 @@
 ---
 extra_packages_aur:
-  - etcher-bin
-  - navi-bin
-  - nerd-fonts-hack
   - vmware-horizon-client
   - zoom
 extra_packages_pacman:
