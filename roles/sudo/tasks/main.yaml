@@ -4,6 +4,11 @@
     name: sudo
     state: present
 
+- name: Add the sudo group
+  group:
+    name: sudo
+    state: present
+
 - name: Enable the sudo group
   replace:
     path: /etc/sudoers
