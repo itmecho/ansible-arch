@@ -7,3 +7,4 @@
       - fuse2
       - pcloud-drive
     use: yay
+    skip_installed: true

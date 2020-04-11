@@ -1,13 +1,15 @@
 ---
-- name: Install polybar
-  aur:
-    name: polybar
-    use: yay
 
-- name: Configure polybar
+- name: Install and configure polybar
   become: true
   become_user: "{{ user.name }}"
   block:
+    - name: Install polybar
+      aur:
+        name: polybar
+        use: yay
+        skip_installed: true
+
     - name: Create config directory
       file:
         path: "{{ user.home }}/.config/polybar"

@@ -5,3 +5,4 @@
   aur:
     name: dropbox
     use: yay
+    skip_installed: true

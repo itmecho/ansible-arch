@@ -55,18 +55,28 @@
           - spotify
           - starship-bin
           - systemd-boot-pacman-hook
+        skip_installed: true
         use: yay
 
     - name: Install extra AUR packages
       when: extra_packages_aur is defined and (extra_packages_aur | length > 0)
       aur:
         name: "{{ extra_packages_aur }}"
+        skip_installed: true
         use: yay
 
     - name: Configure starship
       copy:
         src: starship.toml
         dest: "{{ user.home }}/.config/starship.toml"
+
+    - name: Create GTK config directories
+      file:
+        path: "{{ user.home }}/.config/{{ item }}"
+        state: directory
+      loop:
+        - gtk-3.0
+        - gtk-4.0
 
     - name: Configure gtk applications
       copy:

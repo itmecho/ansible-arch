@@ -5,12 +5,14 @@
   when: enable_multilib is not defined or not enable_multilib
 
 - name: Check for en_US.UTF-8 locale
-  shell:
-    cmd: locale -a
-  register: locale_output
+  shell: locale -a
+  register: result
+  check_mode: false
+
+- debug: var=result
 
 - name: Generate en_US.UTF-8 locale
-  when: '"en_US.UTF-8" not in locale_output.stdout'
+  when: "'en_US.UTF-8' not in result.stdout"
   block:
     - name: Uncomment en_US.UTF-8 in /etc/locale.gen
       replace:

@@ -18,8 +18,8 @@ teal = #21496A
 monitor = ${env:MONITOR:}
 enable-ipc = true
 
-modules-left = date {% if is_work %}vpn alerts {% endif %}updates updates-loop
-modules-right = music pulseaudio battery
+modules-left = date cpu memory filesystem {% if is_work %}vpn alerts {% endif %}updates updates-loop
+modules-right = music pulseaudio{% if is_work %} battery{% endif %}
 
 background = ${colours.background}
 foreground = ${colours.text}
@@ -74,6 +74,24 @@ date-alt = %Y-%m-%d
 time-alt = %H:%M:%S
 
 format-foreground = ${colours.text}
+
+[module/cpu]
+type = internal/cpu
+label =  %percentage-sum%%
+interval = 3
+
+[module/memory]
+type = internal/memory
+label =  %percentage_used%%
+interval = 3
+
+[module/filesystem]
+type = internal/fs
+
+mount-0 = /
+interval = 10
+fixed-values = true
+label-mounted =  %percentage_used%%
 
 [module/battery]
 type = internal/battery

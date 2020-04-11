@@ -15,7 +15,9 @@
         mode: 0755
 
     - name: Run installer
-      command: /tmp/omz.sh
+      command:
+        cmd: /tmp/omz.sh
+        creates: "{{ user.home }}/.oh-my-zsh"
 
     - name: Remove installer
       file:

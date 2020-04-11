@@ -16,6 +16,11 @@
   become: true
   become_user: "{{ user.name }}"
   block:
+    - name: Create configuration directory
+      file:
+        path: "{{ user.home }}/.config/nvim"
+        state: directory
+
     - name: Configure neovim
       copy:
         src: init.vim
