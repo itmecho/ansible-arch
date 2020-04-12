@@ -1,6 +1,10 @@
 ---
 - name: Arch Configuration
   hosts: all
+  pre_tasks:
+    - name: Sync pacman cache
+      pacman:
+        update_cache: yes
   roles:
     - name: alacritty
     
