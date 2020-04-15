@@ -9,6 +9,7 @@ extra_packages_pacman:
   - kubectx
   - maven
   - meld
+  - molecule
   - virtualbox
   - virtualbox-host-modules-arch
   - wireshark-qt
