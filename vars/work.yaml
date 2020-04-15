@@ -1,5 +1,6 @@
 ---
 extra_packages_aur:
+  - libselinux
   - vmware-horizon-client
   - zoom
 extra_packages_pacman:
