@@ -7,16 +7,10 @@ Plug 'tpope/vim-commentary'
 Plug 'preservim/nerdtree'
 Plug 'ryanoasis/vim-devicons'
 Plug 'junegunn/fzf.vim'
-Plug 'ncm2/ncm2'
-Plug 'roxma/nvim-yarp'
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
 Plug 'dense-analysis/ale'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Language specific
-Plug 'OmniSharp/omnisharp-vim'
 Plug 'rust-lang/rust.vim'
 Plug 'mboughaba/i3config.vim'
 Plug 'jvirtanen/vim-hcl'
@@ -37,12 +31,14 @@ set number
 set relativenumber
 set scrolloff=50
 set shiftwidth=4
+set shortmess+=c
 set signcolumn=yes
 set smartcase
 set softtabstop=0
 set splitbelow
 set tabstop=4
 set termguicolors
+set updatetime=300
 set wildignore=.git/*,.venv/*
 
 syntax on
@@ -52,10 +48,19 @@ let mapleader = ','
 let g:airline_powerline_fonts = 1
 let g:airline_theme = 'gruvbox'
 let g:airline#extensions#ale#enabled = 1
+
 let g:ale_set_highlights = 0
 let g:ale_rust_cargo_use_check = 1
+
+let g:coc_global_extensions = [ 
+    \ 'coc-json',
+    \ 'coc-omnisharp',
+    \ 'coc-rust-analyzer',
+    \ 'coc-yaml',
+    \ ]
+
 let g:LanguageClient_serverCommands = {
-    \ 'rust': ['rustup', 'run', 'stable', 'rls'],
+    \ 'rust': ['rust-analyzer'],
     \ }
 let g:LanguageClient_diagnosticsEnable = 0
 
@@ -69,12 +74,10 @@ if executable("rg")
 endif
 
 " Autocommands
-autocmd BufEnter * call ncm2#enable_for_buffer()
-autocmd FileType rust
-    \ autocmd BufWritePre <buffer> :call LanguageClient#textDocument_formatting()
 autocmd FileType make setlocal noexpandtab
 autocmd FileType yaml,hcl setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2
 autocmd FileType go setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
+autocmd BufNewFile,BufRead *.j2 set ft=jinja
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
 " Abbreviations
@@ -107,9 +110,19 @@ nnoremap ; :Buffers<CR>
 nnoremap n nzzzv
 nnoremap <leader>\ :NERDTreeToggle<CR>
 nnoremap <leader>bc :%bd\|e#<CR>
-nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
-nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
-nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+nmap <leader>rn <Plug>(coc-rename)
 
 vnoremap <leader>f y:exe<Space>"grep<Space>-Ir<Space>".escape(@@, '/')."<Space>*"<CR><CR>
 vnoremap <leader>r y:exe<Space>"vimgrep<Space>/".escape(@@, '.')."/<Space>**/*"<CR>:exe<Space>"cdo<Space>s/".escape(@@, '.')."//c<Space>\|<Space>update"<left><left><left><left><left><left><left><left><left><left><left><left>

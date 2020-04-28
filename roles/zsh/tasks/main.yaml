@@ -8,21 +8,29 @@
   become: true
   become_user: "{{ user.name }}"
   block:
-    - name: Download installer
-      get_url:
-        url: https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
-        dest: /tmp/omz.sh
-        mode: 0755
+    - name: Check if oh-my-zsh is installed
+      stat:
+        path: "{{ user.home }}/.oh-my-zsh"
+      register: check
 
-    - name: Run installer
-      command:
-        cmd: /tmp/omz.sh
-        creates: "{{ user.home }}/.oh-my-zsh"
+    - name: Install tasks
+      when: not check.stat.exists
+      block:
+        - name: Download installer
+          get_url:
+            url: https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+            dest: /tmp/omz.sh
+            mode: 0755
 
-    - name: Remove installer
-      file:
-        path: /tmp/omz.sh
-        state: absent
+        - name: Run installer
+          command:
+            cmd: /tmp/omz.sh
+            creates: "{{ user.home }}/.oh-my-zsh"
+
+        - name: Remove installer
+          file:
+            path: /tmp/omz.sh
+            state: absent
 
     - name: Configure zsh
       template:
@@ -33,7 +41,7 @@
       git:
         repo: https://github.com/zsh-users/{{ item }}
         dest: "{{ user.home }}/.oh-my-zsh/custom/plugins/{{ item }}"
-        clone: yes
+        clone: true
       loop:
         - zsh-autosuggestions
         - zsh-syntax-highlighting

@@ -4,13 +4,15 @@ extra_packages_aur:
   - vmware-horizon-client
   - zoom
 extra_packages_pacman:
-  - firefox-developer-edition
-  - networkmanager-openvpn
+  - aspnet-runtime
   - dotnet-sdk
+  - firefox-developer-edition
+  - helm
   - kubectx
   - maven
   - meld
   - molecule
+  - networkmanager-openvpn
   - virtualbox
   - virtualbox-host-modules-arch
   - wireshark-qt

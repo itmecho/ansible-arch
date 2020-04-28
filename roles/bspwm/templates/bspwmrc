@@ -3,6 +3,7 @@
 pkill sxhkd
 pkill polybar
 pkill notification-daemon
+pkill xautolock
 
 {% if is_work | default(false) %}
 output=$(xrandr)
@@ -55,6 +56,8 @@ polybar main &
 nm-applet &
 /usr/lib/notification-daemon-1.0/notification-daemon &
 feh --bg-scale $HOME/.wallpaper.jpg
+
+xautolock -time 5 -locker ~/.config/bspwm/lock.sh -detectsleep &
 
 bspc config border_width        1
 bspc config window_gap          0

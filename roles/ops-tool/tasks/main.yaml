@@ -1,9 +1,20 @@
 ---
-- name: Install ops-tool
+- name: Check if ops-tool is installed
+  stat:
+    path: "{{ user.home }}/bin/ops-tool"
+  register: check
+
+- name: Userspace tasks
+  when: not check.stat.exists
   become: true
   become_user: "{{ user.name }}"
-  unarchive:
-    src: https://github.com/itmecho/ops-tool/releases/download/0.1.0/ops-tool-x86_64-unknown-linux-gnu.tgz
-    dest: "{{ user.home }}/bin"
-    mode: 0700
-    remote_src: true
+  block:
+    - name: Download ops-tool
+      unarchive:
+        src: https://github.com/itmecho/ops-tool/releases/download/0.1.0/ops-tool-x86_64-unknown-linux-gnu.tgz
+        dest: "/tmp"
+        mode: 0700
+        remote_src: true
+
+    - name: Install ops-tool
+      command: mv /tmp/ops-tool-x86_64-unknown-linux-gnu {{ user.home}}/bin/ops-tool

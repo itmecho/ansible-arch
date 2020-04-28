@@ -29,6 +29,7 @@
       - rustup
       - skim
       - ttf-font-awesome
+      - ttf-lato
       - ttf-roboto
       - w3m
       - wget

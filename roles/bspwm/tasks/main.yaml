@@ -3,6 +3,8 @@
   pacman:
     name:
       - bspwm
+      - i3lock-color
+      - xautolock
       - xorg-server
       - xorg-xinit
       - xorg-xrandr
@@ -21,6 +23,12 @@
       template:
         src: bspwmrc
         dest: "{{ user.home }}/.config/bspwm/bspwmrc"
+        mode: 0700
+
+    - name: Copy lockscreen script
+      copy:
+        src: lock.sh
+        dest: "{{ user.home }}/.config/bspwm/lock.sh"
         mode: 0700
 
     - name: Copy xinit script

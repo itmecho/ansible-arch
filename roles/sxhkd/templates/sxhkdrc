@@ -14,6 +14,10 @@ super + d
 super + e
     rofi -dmenu -input ~/.quickedit | xargs -r alacritty -e vim
 
+# lock
+super + l
+    ~/.config/bspwm/lock.sh
+
 # make sxhkd reload its configuration files:
 super + Escape
 	pkill -USR1 -x sxhkd
@@ -29,6 +33,13 @@ XF86Audio{RaiseVolume,LowerVolume}
 # Keyboard volume mute
 XF86AudioMute
     pactl set-sink-mute @DEFAULT_SINK@ toggle
+
+# Printscreen
+Print
+    scrot "screenshot-%F-%H%M%S.png" -e 'mv $f ~/Pictures/' && notify-send "Screenshot Captured"
+
+shift + Print
+    sleep 0.2 && scrot -s "screenshot-%F-%H%M%S.png" -e 'mv $f ~/Pictures/' && notify-send "Screenshot Captured"
 
 #
 # bspwm hotkeys
@@ -151,5 +162,6 @@ super + alt + 1
     firefox-developer-edition &; \
     alacritty &; \
     slack &; \
+    sleep 2; \
     keepassxc &
 {% endif %}
