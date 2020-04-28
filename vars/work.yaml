@@ -13,6 +13,8 @@ extra_packages_pacman:
   - meld
   - molecule
   - networkmanager-openvpn
+  - packer
+  - vagrant
   - virtualbox
   - virtualbox-host-modules-arch
   - wireshark-qt
