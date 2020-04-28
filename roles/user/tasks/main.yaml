@@ -3,3 +3,8 @@
   user:
     name: "{{ username }}"
   register: user
+
+- name: Set getty to skip username prompt
+  template:
+    src: override.conf
+    dest: /etc/systemd/system/getty@tty1.service.d/override.conf
