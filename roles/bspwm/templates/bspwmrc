@@ -7,8 +7,8 @@ pkill xautolock
 
 {% if is_work | default(false) %}
 output=$(xrandr)
-count=$(echo ${output} | rg " connected" | wc -l)
-hidef_count=$(echo ${output} | grep 2560 | wc -l)
+count=$(echo "${output}" | rg " connected" | wc -l)
+hidef_count=$(echo "${output}" | grep 2560 | wc -l)
 
 case $count in
 	3)
