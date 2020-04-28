@@ -1,0 +1,24 @@
+---
+- name: Check if pulumi is already installed
+  stat:
+    path: "{{ user.home }}/.pulumi"
+  register: check
+
+- name: User space tasks
+  when: not check.stat.exists
+  become: true
+  become_user: "{{ user.name }}"
+  block:
+    - name: Fetch install script
+      get_url:
+        url: https://get.pulumi.com
+        dest: /tmp/pulumi.sh
+        mode: 0700
+
+    - name: Install pulumi
+      command: /tmp/pulumi.sh
+
+    - name: Cleanup install script
+      file:
+        path: /tmp/pulumi.sh
+        state: absent
