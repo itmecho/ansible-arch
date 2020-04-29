@@ -54,7 +54,9 @@ let g:ale_rust_cargo_use_check = 1
 
 let g:coc_global_extensions = [ 
     \ 'coc-json',
+{% if is_work | default(false) %}
     \ 'coc-omnisharp',
+{% endif %}
     \ 'coc-rust-analyzer',
     \ 'coc-yaml',
     \ ]

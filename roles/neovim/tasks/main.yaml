@@ -4,6 +4,9 @@
     name:
       - neovim
       - python-pynvim
+      # dependencies for coc.nvim
+      - nodejs
+      - yarn
     state: present
 
 - name: Link vim to nvim system wide
@@ -22,7 +25,7 @@
         state: directory
 
     - name: Configure neovim
-      copy:
+      template:
         src: init.vim
         dest: "{{ user.home }}/.config/nvim/init.vim"
 
