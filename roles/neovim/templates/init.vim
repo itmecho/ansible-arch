@@ -16,6 +16,7 @@ Plug 'mboughaba/i3config.vim'
 Plug 'jvirtanen/vim-hcl'
 
 " Color Scheme
+Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'morhetz/gruvbox'
 call plug#end()
 
@@ -42,7 +43,11 @@ set updatetime=300
 set wildignore=.git/*,.venv/*
 
 syntax on
+{% if theme is defined and theme == 'dracula' %}
+colorscheme dracula
+{% else %}
 colorscheme gruvbox
+{% endif %}
 
 let mapleader = ','
 let g:airline_powerline_fonts = 1

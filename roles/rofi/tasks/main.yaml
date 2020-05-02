@@ -14,11 +14,15 @@
         state: directory
 
     - name: Configure rofi
-      become_user: "{{ user.name }}"
+      template:
+        src: config.rasi
+        dest: "{{ user.home }}/.config/rofi/config.rasi"
+
+    - name: Configure themes
       copy:
         src: "{{ item }}"
         dest: "{{ user.home }}/.config/rofi/{{ item }}"
       loop:
-        - config.rasi
+        - dracula.rasi
         - gruvbox-common.rasi
         - gruvbox-dark.rasi

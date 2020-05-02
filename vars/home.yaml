@@ -4,3 +4,4 @@ extra_packages_pacman:
 graphics: radeon
 has_bluetooth: false
 is_work: false
+theme: dracula

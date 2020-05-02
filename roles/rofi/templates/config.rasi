@@ -1,0 +1,8 @@
+configuration {
+    {% if theme is defined and theme == 'dracula' %}
+    theme: "dracula";
+    {% else %}
+    theme: "gruvbox-dark";
+    {% endif %}
+    font: "Hack Nerd Font 10";
+}

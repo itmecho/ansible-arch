@@ -14,6 +14,6 @@
         state: directory
 
     - name: Configure alacritty
-      copy:
+      template:
         src: alacritty.yml
         dest: "{{ user.home }}/.config/alacritty/alacritty.yml"
