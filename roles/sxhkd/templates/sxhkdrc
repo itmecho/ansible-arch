@@ -14,6 +14,10 @@ super + d
 super + e
     rofi -dmenu -input ~/.quickedit | xargs -r alacritty -e vim
 
+# power menu
+super + shift + e
+    eval "$(rofi -dmenu -input ~/.powermenu)"
+
 # lock
 super + l
     ~/.config/bspwm/lock.sh
