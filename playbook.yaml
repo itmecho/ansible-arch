@@ -7,42 +7,44 @@
         update_cache: yes
   roles:
     - name: alacritty
-    
+
     - name: bluetooth
       when: has_bluetooth | default(false)
-    
+
     - name: bspwm
-    
+
     - name: common
-    
+
     - name: docker
-    
+
     - name: dropbox
       when: is_work
-    
+
     - name: gpg-agent
-    
+
     - name: graphics
-    
+
     - name: neovim
-    
+
     - name: ops-tool
       when: is_work
-    
+
     - name: pcloud
-    
+
     - name: polybar
 
     - name: pulumi
       when: is_work
-    
+
     - name: rofi
-    
+
+    - name: rust
+
     - name: steam
       when: not is_work
-    
+
     - name: sxhkd
-    
+
     - name: yay
-    
+
     - name: zsh

@@ -26,7 +26,6 @@
       - python-pynvim
       - ranger
       - ripgrep
-      - rustup
       - skim
       - ttf-font-awesome
       - ttf-lato

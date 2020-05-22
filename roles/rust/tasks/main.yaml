@@ -1,0 +1,27 @@
+---
+- name: Install rustup
+  pacman:
+    name: rustup
+    state: present
+
+- name: User space tasks
+  become: true
+  become_user: "{{ user.name }}"
+  block:
+    - name: Install rust
+      command:
+        cmd: rustup toolchain install stable
+        creates: "{{ user.home }}/.rustup/toolchains/stable-x86_64-unknown-linux-gnu"
+
+    - name: Install rust-src
+      command:
+        cmd: rustup component add rust-src
+        creates: "{{ user.home }}/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust"
+
+    - name: Install additional cargo tools
+      command:
+        cmd: cargo install {{ item.crate }}
+        creates: "{{ user.home }}/.cargo/bin/{{ item.bin }}"
+      loop:
+        - crate: cargo-edit
+          bin: cargo-add
