@@ -2,6 +2,7 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'vim-airline/vim-airline'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-commentary'
+Plug 'vimwiki/vimwiki'
 
 " IDE
 Plug 'preservim/nerdtree'
@@ -23,6 +24,7 @@ call plug#end()
 " Config
 set cmdheight=2
 set completeopt=noinsert,menuone,noselect
+set cursorline
 set expandtab
 set hidden
 set ignorecase
@@ -37,27 +39,24 @@ set signcolumn=yes
 set smartcase
 set softtabstop=0
 set splitbelow
+set splitright
 set tabstop=4
 set termguicolors
 set updatetime=300
 set wildignore=.git/*,.venv/*
 
 syntax on
-{% if theme is defined and theme == 'dracula' %}
-colorscheme dracula
-{% else %}
-colorscheme gruvbox
-{% endif %}
+colorscheme {{ theme_name }}
 
 let mapleader = ','
 let g:airline_powerline_fonts = 1
-let g:airline_theme = 'gruvbox'
+let g:airline_theme = '{{ theme_name }}'
 let g:airline#extensions#ale#enabled = 1
 
 let g:ale_set_highlights = 0
 let g:ale_rust_cargo_use_check = 1
 
-let g:coc_global_extensions = [ 
+let g:coc_global_extensions = [
     \ 'coc-json',
 {% if is_work | default(false) %}
     \ 'coc-omnisharp',
@@ -66,10 +65,12 @@ let g:coc_global_extensions = [
     \ 'coc-yaml',
     \ ]
 
-let g:LanguageClient_serverCommands = {
-    \ 'rust': ['rust-analyzer'],
-    \ }
-let g:LanguageClient_diagnosticsEnable = 0
+let g:fzf_action = {
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit' }
+let g:fzf_layout = {'window': { 'width': 1, 'height': 1, 'highlight': 'Normal', 'border': 'sharp' } }
+let $FZF_DEFAULT_OPTS = '--layout=reverse --inline-info'
+let $FZF_DEFAULT_COMMAND="rg --files --hidden --glob '!.git/**'"
 
 let NERDTreeQuitOnOpen = 1
 let NERDTreeWinSize = 55
@@ -80,12 +81,36 @@ if executable("rg")
     let g:fzf_tags_command = 'rg --files | ctags --links=no -R -L-'
 endif
 
+" Functions
+function! RemoveTrailingWhiteSpace()
+    :normal mw
+    :%s/\s\+$//e
+    :normal `w
+endfunction
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
 " Autocommands
 autocmd FileType make setlocal noexpandtab
 autocmd FileType yaml,hcl setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2
 autocmd FileType go setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
 autocmd BufNewFile,BufRead *.j2 set ft=jinja
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+autocmd BufWritePre * call RemoveTrailingWhiteSpace()
+
+augroup rust
+    autocmd! rust
+    autocmd FileType rust nnoremap <buffer> <leader>ca :!cargo add
+    autocmd FileType rust nnoremap <buffer> <leader>cc :vs term://cargo check \| :norm i<CR>
+    autocmd FileType rust nnoremap <buffer> <leader>cr :vs term://cargo run \| :norm i<CR>
+    autocmd FileType rust nnoremap <buffer> <leader>ct :vs term://cargo test \| :norm i<CR>
+augroup END
 
 " Abbreviations
 cnoreabbrev W! w!
@@ -102,16 +127,20 @@ cnoreabbrev Qa qa
 cnoreabbrev Qall qall
 
 " Key bindings
+if exists('*complete_info')
+  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+else
+  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+endif
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <C-P> <Esc>:Files<CR>
 
-vnoremap > >gv
-vnoremap < <gv
-
 nnoremap <esc> :noh<CR><esc>
 nnoremap <leader>w :w<CR>
 nnoremap <C-P> :Files<CR>
+nnoremap <C-F> :Rg<CR>
+nnoremap <leader>t :vs term://zsh \| norm i<CR>
 nnoremap <leader>+t :Tags<CR>
 nnoremap ; :Buffers<CR>
 nnoremap n nzzzv
@@ -122,14 +151,11 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 nnoremap <silent> K :call <SID>show_documentation()<CR>
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
 nmap <leader>rn <Plug>(coc-rename)
 
-vnoremap <leader>f y:exe<Space>"grep<Space>-Ir<Space>".escape(@@, '/')."<Space>*"<CR><CR>
+tnoremap <Esc><Esc> <C-\><C-n>
+
+vnoremap > >gv
+vnoremap < <gv
+vnoremap <C-F> y:Rg<Space><C-R>0<CR>
 vnoremap <leader>r y:exe<Space>"vimgrep<Space>/".escape(@@, '.')."/<Space>**/*"<CR>:exe<Space>"cdo<Space>s/".escape(@@, '.')."//c<Space>\|<Space>update"<left><left><left><left><left><left><left><left><left><left><left><left>
