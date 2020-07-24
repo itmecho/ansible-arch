@@ -33,6 +33,16 @@
         src: init.vim
         dest: "{{ user.home }}/.config/nvim/init.vim"
 
+    - name: Create include directory
+      file:
+        path: "{{ user.home }}/.config/nvim/include"
+        state: directory
+
+    - name: Copy RNR
+      copy:
+        src: rnr.vim
+        dest: "{{ user.home }}/.config/nvim/include/rnr.vim"
+
     - name: Create nvim autoload directory
       file:
         path: "{{ user.home }}/.local/share/nvim/site/autoload"
