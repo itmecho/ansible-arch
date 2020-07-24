@@ -11,7 +11,7 @@ fi
 updates=$(("$updates_arch" + "$updates_aur"))
 
 if [ $updates -gt 0 ]; then
-    echo "%{F#599a74}  %{F-}$updates"
+    echo "%{F#599a74}  %{F-}$updates"
 else
-    echo "%{F#386261}  %{F-}"
+    echo "%{F#386261}  %{F-}"
 fi
