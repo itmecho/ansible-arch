@@ -1,6 +1,6 @@
 #!/bin/sh
 
-i3lock --force-clock --color=000000 --pass-media-keys \
+i3lock --blur=5 --force-clock --color=000000 --pass-media-keys \
     --greetercolor=928374ff \
     --timepos="ix-0:iy-400" --time-font=LatoLight --timesize=140 --timecolor=a89984ff \
     --datepos="tx-0:ty+90" --date-font=LatoLight --datesize=42 --datecolor=928374ff \

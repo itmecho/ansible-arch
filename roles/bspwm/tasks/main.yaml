@@ -14,6 +14,12 @@
   become: true
   become_user: "{{ user.name }}"
   block:
+    - name: Install bsp-layout
+      aur:
+        name: bsp-layout
+        skip_installed: true
+        use: yay
+
     - name: Create config directory
       file:
         path: "{{ user.home }}/.config/bspwm"

@@ -38,7 +38,7 @@ case $count in
         xrandr --output eDP-1-1 --mode 1920x1080 --primary
         bspc monitor -d 1 2 3 4 5 6 7 8 9
         ;;
-	*) 
+	*)
         # Just in case something goes wrong
         xrandr --auto
         ;;
@@ -80,3 +80,16 @@ bspc rule -a Alacritty desktop=2 follow=on
 bspc rule -a Slack desktop=3 follow=on
 bspc rule -a KeePassXC desktop=3 follow=on
 bspc rule -a Spotify desktop=4 follow=on
+
+bsp-layout set tall 2
+
+{% if is_work | default(false) %}
+if [ $count -eq 3 ]; then
+    # Plugged into the dock so open work applications
+    firefox-developer-edition &
+    alacritty &
+    slack &
+    sleep 2 # because slack takes forever to start
+    keepassxc &
+fi
+{% endif %}
