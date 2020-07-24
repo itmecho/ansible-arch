@@ -6,7 +6,7 @@
       - arc-icon-theme
       - aws-cli
       - bat
-      - bind-tools
+      - bind
       - firefox
       - fzf
       - git
@@ -23,6 +23,7 @@
       - openssh
       - pavucontrol
       - playerctl
+      - postgresql
       - python-pynvim
       - ranger
       - ripgrep
