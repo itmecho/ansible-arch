@@ -110,7 +110,7 @@ function! s:show_documentation()
   endif
 endfunction
 
-source /home/iain/.config/nvim/include/rnr.vim
+source {{ user.home }}/.config/nvim/include/rnr.vim
 
 " Autocommands
 autocmd FileType make setlocal noexpandtab
