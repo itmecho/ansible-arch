@@ -62,10 +62,10 @@ xautolock -time 5 -locker ~/.config/bspwm/lock.sh -detectsleep &
 bspc config border_width        1
 bspc config window_gap          0
 
-bspc config split_ratio           0.52
-bspc config borderless_monocle    true
-bspc config gapless_monocle       true
-bspc config pointer_follows_focus true
+bspc config split_ratio             0.52
+bspc config borderless_monocle      true
+bspc config gapless_monocle         true
+bspc config pointer_follows_monitor true
 
 {% if theme is defined and theme == 'dracula' %}
 # Dracula
