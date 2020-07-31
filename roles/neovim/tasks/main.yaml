@@ -17,7 +17,7 @@
 
 - name: Set theme name
   set_fact:
-    theme_name: "{{ 'dracula' if theme is defined and theme == 'dracula' else 'gruvbox' }}"
+    theme_name: "{{ theme if theme is defined else 'gruvbox' }}"
 
 - name: Run userspace tasks
   become: true

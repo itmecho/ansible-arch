@@ -1,0 +1,19 @@
+---
+- name: Install picom
+  pacman:
+    name: picom
+    state: present
+
+- name: Configure picom
+  become: true
+  become_user: "{{ user.name }}"
+  block:
+    - name: Create configuration directory
+      file:
+        path: "{{ user.home }}/.config/picom"
+        state: directory
+
+    - name: Copy configuration file
+      copy:
+        src: picom.conf
+        dest: "{{ user.home }}/.config/picom/picom.conf"

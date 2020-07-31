@@ -24,6 +24,7 @@ Plug 'jvirtanen/vim-hcl'
 " Color Scheme
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'morhetz/gruvbox'
+Plug 'arcticicestudio/nord-vim'
 call plug#end()
 
 " Config
@@ -47,7 +48,9 @@ set spelllang=en_gb
 set splitbelow
 set splitright
 set tabstop=4
+{% if theme_name == 'gruvbox' %}
 set termguicolors
+{% endif %}
 set updatetime=300
 set wildignore=.git/*,.venv/*
 

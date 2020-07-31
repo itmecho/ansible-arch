@@ -8,7 +8,7 @@ super + Return
 
 # program launcher
 super + d
-	rofi -show run
+	rofi -show drun -show-icons
 
 # quick edit
 super + e
@@ -102,8 +102,8 @@ super + bracket{left,right}
 	bspc desktop -f {prev,next}.local
 
 # focus the last node/desktop
-super + {grave,Tab}
-	bspc {node,desktop} -f last
+super + Tab
+	rofi -show window
 
 # focus the older or newer node in the focus history
 super + {o,i}

@@ -1,18 +1,18 @@
 ; TODO template for work/home
 [colours]
-background = #121212
+background = #2e3440
 background-alt = #ED3A53
-text = #86a1bb
+text = #d8dee9
 text-alt = #4c566a
 primary = #1C446E
-alert = #1C446E
+alert = #bf616a
 
-red = #213C52
-green = #1C3D64
-yellow = #1F415C
-blue = #21415B
-purple = #1C446E
-teal = #21496A
+red = #bf616a
+green = #a3be8c
+yellow = #ebcb8b
+blue = #5e81ac
+purple = #b48ead
+teal = #88c0d0
 
 [bar/main]
 monitor = ${env:MONITOR:}
@@ -64,7 +64,7 @@ exec = playerctl status &>/dev/null && playerctl metadata -f "   {{'{{'}}arti
 [module/date]
 type = internal/date
 interval = 1.0
-label = "    %date% %time%    "
+label = "  %{F#1793d1} %{F-} %date% %time%    "
 
 date = %a %d %b
 time = %H:%M:%S

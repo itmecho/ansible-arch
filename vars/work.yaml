@@ -20,4 +20,4 @@ extra_packages_pacman:
 graphics: nvidia
 has_bluetooth: true
 is_work: true
-theme: dracula
+theme: nord
