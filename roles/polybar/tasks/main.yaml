@@ -24,12 +24,15 @@
       copy:
         src: checkupdates.sh
         dest: "{{ user.home }}/.config/polybar/checkupdates.sh"
+        mode: 0700
 
     - name: Copy work scripts
       when: is_work | default(false)
       copy:
         src: "{{ item }}"
         dest: "{{ user.home }}/.config/polybar/{{ item }}"
+        mode: 0700
       loop:
         - grafana_alerts.sh
+        - grafana_alerts_list.sh
         - vpn.sh

@@ -59,7 +59,7 @@ module-margin-right = 2
 [module/music]
 type = custom/script
 interval = 1
-exec = playerctl status &>/dev/null && playerctl metadata -f "   {{'{{'}}artist{{'}}'}} - {{'{{'}}title{{'}}'}}"
+exec = playerctl status &>/dev/null && playerctl metadata -f "ﱘ   {{'{{'}}artist{{'}}'}} - {{'{{'}}title{{'}}'}}"
 
 [module/date]
 type = internal/date
@@ -130,6 +130,8 @@ type = custom/script
 
 exec = bash ~/.config/polybar/grafana_alerts.sh
 interval = 300
+
+click-left = ~/.config/polybar/grafana_alerts_list.sh
 
 [module/vpn]
 type = custom/ipc
