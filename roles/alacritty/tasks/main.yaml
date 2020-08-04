@@ -8,6 +8,11 @@
   become: true
   become_user: "{{ user.name }}"
   block:
+    - name: Install mononoki font
+      aur:
+        name: nerd-fonts-mononoki
+        skip_installed: true
+        use: yay
     - name: Create config directory
       file:
         path: "{{ user.home }}/.config/alacritty"
