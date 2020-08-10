@@ -96,7 +96,7 @@ bspc rule -a Slack desktop=3 follow=on
 bspc rule -a KeePassXC desktop=3 follow=on
 bspc rule -a Spotify desktop=4 follow=on
 
-bsp-layout set tall 2
+bsp-layout set tall 2 --master-size 0.53
 
 {% if is_work | default(false) %}
 if [ $count -eq 3 ]; then
