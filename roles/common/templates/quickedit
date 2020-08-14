@@ -1,5 +1,0 @@
-{{ user.home }}/.quickedit
-{{ user.home }}/.config/alacritty/alacritty.yml
-{{ user.home }}/.config/nvim/init.vim
-{{ user.home }}/.config/bspwm/bspwmrc
-{{ user.home }}/.config/sxhkd/sxhkdrc

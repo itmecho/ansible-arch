@@ -27,3 +27,11 @@
         - gruvbox-common.rasi
         - gruvbox-dark.rasi
         - nord.rasi
+
+    - name: Add rofi scripts
+      copy:
+        src: "{{ item }}"
+        dest: "{{ user.home }}/.config/rofi/{{ item }}"
+        mode: 0755
+      loop:
+        - powermenu.sh
