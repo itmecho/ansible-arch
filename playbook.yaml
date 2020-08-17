@@ -20,6 +20,8 @@
     - name: dropbox
       when: is_work
 
+    - name: dunst
+
     - name: gpg-agent
 
     - name: graphics

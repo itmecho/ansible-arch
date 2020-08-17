@@ -1,3 +1,6 @@
 ---
 dependencies:
+  - dunst
+  - polybar
+  - sxhkd
   - user

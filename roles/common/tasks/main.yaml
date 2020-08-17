@@ -18,7 +18,6 @@
       - network-manager-applet
       - networkmanager
       - nmap
-      - notification-daemon
       - numlockx
       - openssh
       - pavucontrol

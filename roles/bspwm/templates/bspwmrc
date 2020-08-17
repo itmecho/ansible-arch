@@ -2,7 +2,7 @@
 
 pkill sxhkd
 pkill polybar
-pkill notification-daemon
+pkill dunst
 pkill xautolock
 pkill picom
 
@@ -60,7 +60,7 @@ bspc monitor DP-1 -d 2 3 4 5 6 7 8 9
 sxhkd &
 polybar main &
 nm-applet &
-/usr/lib/notification-daemon-1.0/notification-daemon &
+dunst &
 picom -f &
 feh --bg-scale $HOME/.wallpaper.jpg
 

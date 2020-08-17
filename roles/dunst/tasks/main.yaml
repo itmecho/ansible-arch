@@ -1,0 +1,18 @@
+---
+- name: Install dunst
+  pacman:
+    name: dunst
+
+- name: User tasks
+  become: true
+  become_user: "{{ user.name }}"
+  block:
+    - name: Create configuration directory
+      file:
+        path: "{{ user.home }}/.config/dunst"
+        state: directory
+
+    - name: Configure dunst
+      copy:
+        src: dunstrc
+        dest: "{{ user.home }}/.config/dunst/dunstrc"
