@@ -14,8 +14,6 @@ extra_packages_pacman:
   - networkmanager-openvpn
   - packer
   - vagrant
-  - virtualbox
-  - virtualbox-host-modules-arch
   - wireshark-qt
 graphics: nvidia
 has_bluetooth: true

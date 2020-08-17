@@ -24,6 +24,7 @@
       - playerctl
       - postgresql
       - python-pynvim
+      - qemu
       - ranger
       - ripgrep
       - skim
