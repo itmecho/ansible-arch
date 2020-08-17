@@ -57,12 +57,16 @@
           - starship-bin
           - systemd-boot-pacman-hook
         use: yay
+        extra_args:
+          - "--needed"
 
     - name: Install extra AUR packages
       when: extra_packages_aur is defined and (extra_packages_aur | length > 0)
       aur:
         name: "{{ extra_packages_aur }}"
         use: yay
+        extra_args:
+          - "--needed"
 
     - name: Configure starship
       copy:

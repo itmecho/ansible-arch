@@ -7,3 +7,5 @@
       - fuse2
       - pcloud-drive
     use: yay
+    extra_args:
+      - "--needed"

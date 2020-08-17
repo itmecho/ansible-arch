@@ -12,6 +12,9 @@
       aur:
         name: nerd-fonts-mononoki
         use: yay
+        extra_args:
+          - "--needed"
+
     - name: Create config directory
       file:
         path: "{{ user.home }}/.config/alacritty"
