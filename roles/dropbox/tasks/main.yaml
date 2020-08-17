@@ -5,5 +5,3 @@
   aur:
     name: dropbox
     use: yay
-    extra_args:
-      - "--needed"

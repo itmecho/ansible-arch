@@ -3,10 +3,9 @@
   become: true
   become_user: "{{ user.name }}"
   aur:
-    name: spotify
+    name:
+      - spotify
     use: yay
-    extra_args:
-      - "--needed"
 
 - name: Fix permissions
   file:
@@ -24,8 +23,6 @@
           - spicetify-cli
           - spicetify-themes-git
         use: yay
-        extra_args:
-          - "--needed"
 
     - name: Create initial config file
       command:

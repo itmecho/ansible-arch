@@ -18,8 +18,6 @@
       aur:
         name: bsp-layout
         use: yay
-        extra_args:
-          - "--needed"
 
     - name: Create config directory
       file:

@@ -7,8 +7,6 @@
       aur:
         name: polybar
         use: yay
-        extra_args:
-          - "--needed"
 
     - name: Create config directory
       file:
