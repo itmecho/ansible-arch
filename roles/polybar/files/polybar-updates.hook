@@ -7,4 +7,4 @@ Target = *
 [Action]
 Description = Refreshing polybar updates...
 When = PostTransaction
-Exec = polybar-msg hook updates 1
+Exec = /usr/bin/polybar-msg hook updates 1
