@@ -56,6 +56,7 @@
           - slack-desktop
           - starship-bin
           - systemd-boot-pacman-hook
+          - ytop-bin
         use: yay
 
     - name: Install extra AUR packages
