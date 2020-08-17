@@ -1,0 +1,10 @@
+[Trigger]
+Type = Package
+Operation = Upgrade
+Operation = Remove
+Target = *
+
+[Action]
+Description = Refreshing polybar updates...
+When = PostTransaction
+Exec = polybar-msg hook updates 1

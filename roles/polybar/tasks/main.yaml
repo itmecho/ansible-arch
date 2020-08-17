@@ -1,5 +1,4 @@
 ---
-
 - name: Install and configure polybar
   become: true
   become_user: "{{ user.name }}"
@@ -38,3 +37,14 @@
         - grafana_alerts.sh
         - grafana_alerts_list.sh
         - vpn.sh
+
+- name: Create hooks directory
+  file:
+    path: /etc/pacman.d/hooks
+    state: directory
+
+- name: Install pacman hook
+  copy:
+    src: polybar-updates.hook
+    dest: /etc/pacman.d/hooks/polybar-updates.hook
+    mode: 0644
