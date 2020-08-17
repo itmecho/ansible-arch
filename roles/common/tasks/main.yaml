@@ -52,18 +52,16 @@
           - etcher-bin
           - navi-bin
           - nerd-fonts-hack
+          - nordic-theme-git
           - slack-desktop
-          - spotify
           - starship-bin
           - systemd-boot-pacman-hook
-        skip_installed: true
         use: yay
 
     - name: Install extra AUR packages
       when: extra_packages_aur is defined and (extra_packages_aur | length > 0)
       aur:
         name: "{{ extra_packages_aur }}"
-        skip_installed: true
         use: yay
 
     - name: Configure starship

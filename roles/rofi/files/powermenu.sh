@@ -1,10 +1,9 @@
 #!/bin/sh
 
-read -r -d '' choices <<EOF
-Reboot:systemctl reboot
-Shutdown/Power Off:systemctl poweroff
-EOF
+choice=$(echo -e "襤\nﰇ" | rofi -dmenu -theme powermenu -i -columns 2 -no-custom)
 
-choice=$(echo "${choices}" | cut -d':' -f1 | rofi -dmenu -i -no-custom)
-
-eval "$(echo "${choices}" | grep "${choice}" | cut -d':' -f2)"
+if [[ "${choice}" == "襤" ]]; then
+    systemctl poweroff
+elif [[ "${choice}" == "ﰇ" ]]; then
+    systemctl reboot
+fi

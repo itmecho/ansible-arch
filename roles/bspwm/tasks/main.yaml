@@ -17,7 +17,6 @@
     - name: Install bsp-layout
       aur:
         name: bsp-layout
-        skip_installed: true
         use: yay
 
     - name: Create config directory

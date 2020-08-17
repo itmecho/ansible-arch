@@ -13,20 +13,14 @@
         path: "{{ user.home }}/.config/rofi"
         state: directory
 
-    - name: Configure rofi
-      template:
-        src: config.rasi
-        dest: "{{ user.home }}/.config/rofi/config.rasi"
-
-    - name: Configure themes
+    - name: Copy configuration
       copy:
         src: "{{ item }}"
         dest: "{{ user.home }}/.config/rofi/{{ item }}"
       loop:
-        - dracula.rasi
-        - gruvbox-common.rasi
-        - gruvbox-dark.rasi
+        - config.rasi
         - nord.rasi
+        - powermenu.rasi
 
     - name: Add rofi scripts
       copy:

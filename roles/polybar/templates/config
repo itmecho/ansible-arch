@@ -103,18 +103,6 @@ label-charging = ﮣ %percentage%%
 label-discharging =   %percentage%%
 label-full =   %percentage%%
 
-[module/github]
-type = internal/github
-
-token = 7a89dbb5a935fdbfd7f890c557cfab3ff2b37ee8
-
-user = itmecho
-
-empty-notifications = false
-
-interval = 10
-
-
 [module/pulseaudio]
 type = internal/pulseaudio
 
@@ -145,7 +133,7 @@ click-right = alacritty -e nmcli con down id "Boomi Flow" && sleep 1 && polybar-
 type = custom/ipc
 hook-0 = bash ~/.config/polybar/checkupdates.sh
 
-click-left = alacritty -e yay -Syu && sleep 1 && polybar-msg hook updates 1 &>/dev/null
+click-left = ~/.config/polybar/listupdates.sh
 
 [module/updates-loop]
 type = custom/script

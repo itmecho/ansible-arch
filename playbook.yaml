@@ -42,6 +42,8 @@
 
     - name: rust
 
+    - name: spotify
+
     - name: steam
       when: not is_work
 

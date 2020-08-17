@@ -8,7 +8,6 @@
       aur:
         name: polybar
         use: yay
-        skip_installed: true
 
     - name: Create config directory
       file:
@@ -22,9 +21,12 @@
 
     - name: Copy scripts
       copy:
-        src: checkupdates.sh
-        dest: "{{ user.home }}/.config/polybar/checkupdates.sh"
+        src: "{{ item }}"
+        dest: "{{ user.home }}/.config/polybar/{{ item }}"
         mode: 0700
+      loop:
+        - checkupdates.sh
+        - listupdates.sh
 
     - name: Copy work scripts
       when: is_work | default(false)

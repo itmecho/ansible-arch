@@ -22,8 +22,6 @@ Plug 'peitalin/vim-jsx-typescript'
 Plug 'jvirtanen/vim-hcl'
 
 " Color Scheme
-Plug 'dracula/vim', { 'as': 'dracula' }
-Plug 'morhetz/gruvbox'
 Plug 'arcticicestudio/nord-vim'
 call plug#end()
 
@@ -48,18 +46,15 @@ set spelllang=en_gb
 set splitbelow
 set splitright
 set tabstop=4
-{% if theme_name == 'gruvbox' %}
-set termguicolors
-{% endif %}
 set updatetime=300
 set wildignore=.git/*,.venv/*
 
 syntax on
-colorscheme {{ theme_name }}
+colorscheme nord
 
 let mapleader = ','
 let g:airline_powerline_fonts = 1
-let g:airline_theme = '{{ theme_name }}'
+let g:airline_theme = 'nord'
 let g:airline#extensions#ale#enabled = 1
 
 let g:ale_set_highlights = 0
@@ -175,6 +170,8 @@ nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 nmap <leader>rn <Plug>(coc-rename)
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
 vnoremap > >gv
 vnoremap < <gv

@@ -13,7 +13,6 @@
     - name: Install mononoki font
       aur:
         name: nerd-fonts-mononoki
-        skip_installed: true
         use: yay
     - name: Create config directory
       file:
@@ -21,6 +20,6 @@
         state: directory
 
     - name: Configure alacritty
-      template:
+      copy:
         src: alacritty.yml
         dest: "{{ user.home }}/.config/alacritty/alacritty.yml"

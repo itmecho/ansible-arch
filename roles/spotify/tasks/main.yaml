@@ -1,0 +1,43 @@
+---
+- name: Install spotify
+  become: true
+  become_user: "{{ user.name }}"
+  aur:
+    name:
+      - spotify
+    use: yay
+
+- name: Fix permissions
+  file:
+    path: /opt/spotify
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+
+- name: Customization
+  become: true
+  become_user: "{{ user.name }}"
+  block:
+    - name: Install packages
+      aur:
+        name:
+          - spicetify-cli
+          - spicetify-themes-git
+        use: yay
+
+    - name: Create initial config file
+      command:
+        cmd: spicetify
+        creates: "{{ user.home }}/.config/spicetify/config.ini"
+
+    - name: Check current theme
+      command: spicetify config current_theme
+      check_mode: false
+      register: current_theme
+
+    - name: Set theme
+      command: spicetify config current_theme Nord
+      when: '"Nord" not in current_theme.stdout'
+
+    - name: Apply theme
+      command: spicetify backup apply
+      when: '"Nord" not in current_theme.stdout'

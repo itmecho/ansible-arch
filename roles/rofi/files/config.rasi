@@ -1,0 +1,6 @@
+configuration {
+    modi: "window,run,drun,ssh";
+    show-icons: true;
+    theme: "nord";
+    font: "Roboto 12";
+}

@@ -15,10 +15,6 @@
     src: /usr/bin/nvim
     state: link
 
-- name: Set theme name
-  set_fact:
-    theme_name: "{{ theme if theme is defined else 'gruvbox' }}"
-
 - name: Run userspace tasks
   become: true
   become_user: "{{ user.name }}"
