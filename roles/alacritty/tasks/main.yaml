@@ -1,9 +1,7 @@
 ---
 - name: Install alacritty
   pacman:
-    name:
-      - alacritty
-      - ttf-jetbrains-mono
+    name: alacritty
     state: present
 
 - name: Userspace tasks
