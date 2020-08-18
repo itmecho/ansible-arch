@@ -110,7 +110,7 @@ eval $(starship init zsh)
 alias ls="lsd --group-dirs first"
 alias ll="ls -lAh"
 alias l="ls -lh"
-alias cat="bat -p"
+alias cat="bat -pp"
 alias vi="nvim"
 alias vim="nvim"
 alias v="nvim"

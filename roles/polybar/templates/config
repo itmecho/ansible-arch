@@ -57,9 +57,14 @@ module-margin-left = 2
 module-margin-right = 2
 
 [module/music]
-type = custom/script
-interval = 1
-exec = playerctl status &>/dev/null && playerctl metadata -f "ﱘ   {{'{{'}}artist{{'}}'}} - {{'{{'}}title{{'}}'}}"
+type = internal/mpd
+
+host = 127.0.0.1
+port = 6600
+
+interval = 2
+
+label-song =   %artist% - %title%
 
 [module/date]
 type = internal/date

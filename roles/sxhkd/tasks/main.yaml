@@ -14,6 +14,6 @@
         state: directory
 
     - name: Configure sxhkd
-      template:
+      copy:
         src: sxhkdrc
         dest: "{{ user.home }}/.config/sxhkd/sxhkdrc"

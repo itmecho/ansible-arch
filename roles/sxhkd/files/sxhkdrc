@@ -28,7 +28,7 @@ super + Escape
 
 # keyboard media keys
 XF86Audio{Play,Pause,Next,Prev}
-    playerctl {play-pause,play-pause,next,previous}
+    mpc {toggle,toggle,next,prev}
 
 # Keyboard volume up/down
 XF86Audio{RaiseVolume,LowerVolume}
@@ -150,22 +150,3 @@ super + alt + shift + {h,j,k,l}
 # move a floating window
 super + {Left,Down,Up,Right}
 	bspc node -v {-20 0,0 20,0 -20,20 0}
-
-#
-# Applications
-#
-super + w
-{% if is_work | default(false) %}
-    firefox-developer-edition
-{% else %}
-    firefox
-{% endif %}
-
-{% if is_work %}
-super + alt + 1
-    firefox-developer-edition &; \
-    alacritty &; \
-    slack &; \
-    sleep 2; \
-    keepassxc &
-{% endif %}

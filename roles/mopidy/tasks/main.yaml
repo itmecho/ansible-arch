@@ -1,0 +1,46 @@
+---
+- name: User tasks
+  become: true
+  become_user: "{{ user.name }}"
+  block:
+    - name: Install packages
+      pacman:
+        name:
+          - mopidy
+          - mpc
+          - ncmpcpp
+
+    - name: Install plugins
+      aur:
+        name:
+          - mopidy-mpd
+          - mopidy-spotify
+        use: yay
+
+    - name: Create configuration directory
+      file:
+        path: "{{ user.home }}/.config/mopidy"
+        state: directory
+
+    - name: Configure mopidy
+      template:
+        src: mopidy.conf
+        dest: "{{ user.home }}/.config/mopidy/mopidy.conf"
+
+    - name: Copy systemd service to user
+      command:
+        cmd: cp /lib/systemd/system/mopidy.service {{ user.home }}/.config/systemd/user/mopidy.service
+        creates: "{{ user.home }}/.config/systemd/user/mopidy.service"
+
+    - name: Remove User setting from service
+      lineinfile:
+        path: "{{ user.home }}/.config/systemd/system/user/mopidy.service"
+        regexp: 'User=mopidy'
+        state: absent
+
+    - name: Enable and start service
+      systemd:
+        name: mopidy.service
+        state: restarted
+        enabled: true
+        scope: user
