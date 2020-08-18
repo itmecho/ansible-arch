@@ -1,15 +1,15 @@
 ---
+- name: Install packages
+  pacman:
+    name:
+      - mopidy
+      - mpc
+      - ncmpcpp
+
 - name: User tasks
   become: true
   become_user: "{{ user.name }}"
   block:
-    - name: Install packages
-      pacman:
-        name:
-          - mopidy
-          - mpc
-          - ncmpcpp
-
     - name: Install plugins
       aur:
         name:
