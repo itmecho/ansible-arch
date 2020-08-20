@@ -1,10 +1,11 @@
 #!/bin/sh
 
-pkill sxhkd
-pkill polybar
 pkill dunst
-pkill xautolock
+pkill mopidy
 pkill picom
+pkill polybar
+pkill sxhkd
+pkill xautolock
 
 bspc config window_gap 0
 
@@ -58,11 +59,13 @@ bspc monitor DVI-D-1 -d 1
 bspc monitor DP-1 -d 2 3 4 5 6 7 8 9
 
 {% endif %}
-sxhkd &
-polybar main &
-nm-applet &
 dunst &
+mopidy &
+nm-applet &
 picom -f &
+polybar main &
+sxhkd &
+
 feh --bg-scale $HOME/.wallpaper.jpg
 
 xautolock -time 5 -locker ~/.config/bspwm/lock.sh -detectsleep &
